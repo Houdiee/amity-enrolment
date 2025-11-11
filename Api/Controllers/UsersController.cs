@@ -29,6 +29,7 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         };
 
         await dbcontext.Users.AddAsync(newUser);
+        await dbcontext.SaveChangesAsync();
 
         return Ok(new { message = "User created successfully" });
     }
@@ -49,6 +50,27 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         {
             user = user,
             message = $"Successfully found user with ID {user.Id}",
+        });
+    }
+
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> DeleteUserByID(int userId)
+    {
+        User? user = await dbcontext.Users
+          .Include(u => u.EnrolmentForm)
+          .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user is null)
+        {
+            return BadRequest(new { message = $"User with ID {userId} not found" });
+        }
+
+        dbcontext.Users.Remove(user);
+        await dbcontext.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = $"Successfully deleted user with ID {user.Id}",
         });
     }
 }

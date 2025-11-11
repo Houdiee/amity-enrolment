@@ -8,7 +8,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<ApiDbContext>(options =>
 {
-    _ = options.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
+    _ = options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_URL"));
 });
 
 var app = builder.Build();
@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
