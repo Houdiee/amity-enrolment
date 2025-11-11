@@ -24,5 +24,19 @@ public class ApiDbContext(DbContextOptions<ApiDbContext> options) : DbContext
               .HasForeignKey<EnrolmentForm>(ef => ef.UserId)
               .OnDelete(DeleteBehavior.Cascade);
         });
+
+        modelBuilder.Entity<EnrolmentForm>(enrolmentForm =>
+        {
+          enrolmentForm.HasKey(ef => ef.Id);
+          enrolmentForm.OwnsOne(ef => ef.StudentDetails);
+          enrolmentForm.OwnsOne(ef => ef.StudentSchoolingExperience);
+          enrolmentForm.OwnsOne(ef => ef.FamilyDetails);
+          enrolmentForm.OwnsOne(ef => ef.DocumentChecklist);
+          enrolmentForm.OwnsOne(ef => ef.MedicalInformation);
+          enrolmentForm.OwnsMany(ef => ef.EmergencyContactDetails);
+          enrolmentForm.OwnsOne(ef => ef.BillingAddress);
+          enrolmentForm.OwnsOne(ef => ef.DeclarationOfCommitment);
+          enrolmentForm.OwnsOne(ef => ef.Feedback);
+        });
     }
 }
