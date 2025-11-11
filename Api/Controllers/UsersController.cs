@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Api.Models;
 using Api.DTOs;
 using System.Text;
@@ -14,15 +15,40 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateNewUser(CreateUserRequest req)
     {
-        User user = new()
+        User? existingUser = await dbcontext.Users.FirstOrDefaultAsync(user => user.Email == req.Email);
+        if (existingUser is not null)
+        {
+            return BadRequest(new { message = $"User with email {existingUser.Email} already exists" });
+        }
+
+        User newUser = new()
         {
             Email = req.Email,
             HashedPassword = Encoding.UTF8.GetBytes(req.Password),
             EnrolmentForm = new(),
         };
 
-        await dbcontext.Users.AddAsync(user);
+        await dbcontext.Users.AddAsync(newUser);
 
         return Ok(new { message = "User created successfully" });
+    }
+
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetUserByID(int userId)
+    {
+        User? user = await dbcontext.Users
+          .Include(u => u.EnrolmentForm)
+          .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user is null)
+        {
+            return BadRequest(new { message = $"User with ID {userId} not found" });
+        }
+
+        return Ok(new
+        {
+            user = user,
+            message = $"Successfully found user with ID {user.Id}",
+        });
     }
 }

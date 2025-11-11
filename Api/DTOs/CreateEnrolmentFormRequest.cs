@@ -2,7 +2,7 @@ using Api.Models.Forms.Enrolment;
 
 namespace Api.DTOs;
 
-public class CreateEnrolmentFormRequest {
+public record CreateEnrolmentFormRequest {
   public required StudentDetails StudentDetails { get; set; }
   public required StudentSchoolingExperience StudentSchoolingExperience { get; set; }
   public required FamilyDetails FamilyDetails { get; set; }
