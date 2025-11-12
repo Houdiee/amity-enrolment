@@ -29,7 +29,16 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         };
 
         await dbcontext.Users.AddAsync(newUser);
-        await dbcontext.SaveChangesAsync();
+
+        try
+        {
+            await dbcontext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
 
         return Ok(new
         {
@@ -70,7 +79,16 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         }
 
         dbcontext.Users.Remove(user);
-        await dbcontext.SaveChangesAsync();
+
+        try
+        {
+            await dbcontext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
 
         return Ok(new
         {

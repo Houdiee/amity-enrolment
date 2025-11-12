@@ -31,7 +31,16 @@ public class EnrolmentFormController(ApiDbContext dbcontext) : ControllerBase
             return BadRequest(ModelState);
         }
 
-        await dbcontext.SaveChangesAsync();
+        try
+        {
+            await dbcontext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
         return Ok(new
         {
             form = formToUpdate,
