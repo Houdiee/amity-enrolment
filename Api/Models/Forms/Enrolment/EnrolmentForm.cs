@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Api.Models.Forms.Enrolment;
 
 public class EnrolmentForm {
-  public int Id { get; set; }
+  public int Id { get; }
   public StudentDetails StudentDetails { get; set; } = new();
   public StudentSchoolingExperience StudentSchoolingExperience { get; set; } = new();
   public FamilyDetails FamilyDetails { get; set; } = new();

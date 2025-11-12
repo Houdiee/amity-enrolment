@@ -31,7 +31,11 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         await dbcontext.Users.AddAsync(newUser);
         await dbcontext.SaveChangesAsync();
 
-        return Ok(new { message = "User created successfully" });
+        return Ok(new
+        {
+            user = newUser,
+            message = "User created successfully"
+        });
     }
 
     [HttpGet("{userId}")]

@@ -1,12 +1,13 @@
 using Api.Models.Forms.Enrolment;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Api.Models;
 
 public class User
 {
-    public int Id { get; set; }
+    public int Id { get; }
     public required string Email { get; set; }
-    [JsonIgnore] public byte[] HashedPassword { get; set; } = null!;
+    [JsonIgnore] 
+    public byte[] HashedPassword { get; set; } = null!;
     public required EnrolmentForm EnrolmentForm { get; set; } = null!;
 }
