@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Api.Services;
 using Api.Models;
 using Api.DTOs;
 
@@ -8,9 +9,10 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LoginController(ApiDbContext dbcontext) : ControllerBase
+public class LoginController(ApiDbContext dbcontext, TokenService tokenService) : ControllerBase
 {
     private readonly ApiDbContext dbcontext = dbcontext;
+    private readonly TokenService tokenService = tokenService;
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginRequest req)
@@ -49,7 +51,7 @@ public class LoginController(ApiDbContext dbcontext) : ControllerBase
         return Ok(new
         {
             user = user,
-            token = "FIX THIS STUPID ASS TOKEN",
+            token = tokenService.GenerateToken(user),
         });
     }
 }
