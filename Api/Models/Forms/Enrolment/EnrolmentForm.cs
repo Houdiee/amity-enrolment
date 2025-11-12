@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Api.Models.Forms.Enrolment;
 
 public class EnrolmentForm {
@@ -13,5 +15,6 @@ public class EnrolmentForm {
   public Feedback Feedback { get; set; } = new();
 
   public int UserId { get; set; }
+  [JsonIgnore]
   public User User { get; set; } = null!;
 }

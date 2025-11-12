@@ -9,7 +9,7 @@ public record StudentDetails
     public string? EthnicBackground { get; init; } = null;
     public string? Religion { get; init; } = null;
     public List<string> LanguagesSpoken { get; init; } = new();
-    public HashSet<Campus> CampusApplied { get; init; } = new();
+    public List<Campus> CampusApplied { get; init; } = new();
     public IndigenousStatus? IndigenousStatus { get; init; } = null;
     public ResidencyStatus? ResidencyStatus { get; init; } = null;
     public string? PassportNo { get; init; } = null;
