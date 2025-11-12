@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Api.Models;
-using System.Text;
 using Api.DTOs;
 
 namespace Api.Controllers;
@@ -24,9 +24,26 @@ public class LoginController(ApiDbContext dbcontext) : ControllerBase
             return BadRequest(new { message = $"User with email {req.Email} does not exist" });
         }
 
-        if (user.HashedPassword != Encoding.UTF8.GetBytes(req.Password))
+        PasswordHasher<User> passwordHasher = new();
+        PasswordVerificationResult verificationResult = passwordHasher.VerifyHashedPassword(user, user.HashedPassword, req.Password);
+        if (verificationResult == PasswordVerificationResult.Failed)
         {
-            return BadRequest(new { message = $"Incorrect password" });
+            return Unauthorized(new { message = "Invalid credentials" });
+        }
+
+        if (verificationResult == PasswordVerificationResult.SuccessRehashNeeded)
+        {
+            user.HashedPassword = passwordHasher.HashPassword(user, req.Password);
+            try
+            {
+                await dbcontext.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         return Ok(new

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Api.Models;
 using Api.DTOs;
 using System.Text;
@@ -21,12 +22,13 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
             return BadRequest(new { message = $"User with email {existingUser.Email} already exists" });
         }
 
+        PasswordHasher<User> passwordHasher = new();
         User newUser = new()
         {
             Email = req.Email,
-            HashedPassword = Encoding.UTF8.GetBytes(req.Password),
             EnrolmentForm = new(),
         };
+        newUser.HashedPassword = passwordHasher.HashPassword(newUser, req.Password);
 
         await dbcontext.Users.AddAsync(newUser);
 
