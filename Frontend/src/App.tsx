@@ -13,17 +13,21 @@ type SignupForm = {
 }
 
 function App() {
-  const { register, watch, handleSubmit, formState: { errors } } = useForm<SignupForm>();
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm<SignupForm>({ mode: "onChange" });
+
   const passwordValue = watch("password") ?? "";
   const passwordStrength: Score = useMemo(() => {
     const result = zxcvbn(passwordValue);
     return result.score;
   }, [passwordValue]);
 
-  const [disableSubmit, setDisableSubmit] = useState(true);
-
   const onSubmit = handleSubmit(data => {
-
+    console.log(data);
   });
 
   return (
@@ -51,7 +55,13 @@ function App() {
 
                 <Field.Root invalid={!!errors.email}>
                   <Field.Label>Email</Field.Label>
-                  <Input type="email" placeholder="example@email.com" {...register("email", { required: "This field is required" })} />
+                  <Input type="email" placeholder="example@email.com" {...register("email", {
+                    required: "This field is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Invalid email address",
+                    }
+                  })} />
                   <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
                 </Field.Root>
 
@@ -65,24 +75,26 @@ function App() {
                   })} />
                   <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
                   {passwordValue.length > 0 && (
-                    <PasswordStrengthMeter w="full" value={passwordStrength ? 0 : 1} />
+                    <PasswordStrengthMeter w="full" value={passwordStrength} />
                   )}
                 </Field.Root>
 
                 <Field.Root invalid={!!errors.passwordConfirm}>
                   <Field.Label>Confirm Password</Field.Label>
-                  <PasswordInput {...register("passwordConfirm", {
-                    required: "This field is required",
-                    validate: (value) => value === passwordValue || "Passwords do not match",
-                  })} />
+                  <PasswordInput
+                    {...register("passwordConfirm", {
+                      required: "This field is required",
+                      validate: (value) => value === passwordValue || "Passwords do not match",
+                    })}
+                  />
                   <Field.ErrorText>{errors.passwordConfirm?.message}</Field.ErrorText>
                 </Field.Root>
               </Stack>
             </Card.Body>
             <Card.Footer>
               <HStack w="full">
-                <Button flexGrow={1} size="lg" variant="outline">Cancel</Button>
-                <Button flexGrow={1} size="lg" variant="solid" color="white" bgColor="primary" type="submit" disabled={disableSubmit}>Sign Up</Button>
+                <Button flexGrow={1} size="lg" variant="subtle">Cancel</Button>
+                <Button flexGrow={1} size="lg" variant="solid" color="white" bgColor="primary" type="submit" disabled={!isValid}>Sign Up</Button>
               </HStack>
             </Card.Footer>
           </form>
