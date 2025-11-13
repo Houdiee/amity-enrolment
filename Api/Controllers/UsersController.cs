@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Api.Models;
 using Api.DTOs;
-using System.Text;
 
 namespace Api.Controllers;
 
@@ -25,6 +24,8 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
         PasswordHasher<User> passwordHasher = new();
         User newUser = new()
         {
+            FirstName = req.FirstName,
+            LastName = req.LastName,
             Email = req.Email,
             EnrolmentForm = new(),
         };

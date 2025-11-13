@@ -7,11 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 DotNetEnv.Env.Load();
 string jwtSecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? throw new Exception("JWT_SECRET_KEY cannot be null");
+string frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? throw new Exception("FRONTEND_URL cannot be null");
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<ApiDbContext>(options =>
 {
@@ -34,6 +32,19 @@ builder.Services.AddScoped<TokenService>(provider =>
     return new TokenService(jwtSecretKey);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+          .WithOrigins(frontendUrl)
+          .AllowAnyMethod()
+          .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -41,7 +52,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthorization();
 
