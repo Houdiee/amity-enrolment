@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { zxcvbn, type Score } from "@zxcvbn-ts/core";
 import { Link as Href } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
+import { ROUTES } from "../App";
 
 type SignupForm = {
   firstName: string,
@@ -94,13 +95,13 @@ function SignupForm() {
         <Card.Footer>
           <Stack w="full" gap={6}>
             <Link justifyContent="center" fontSize="sm" color="blue.500" as="div">
-              <Href to="/login">
+              <Href to={ROUTES.LOGIN}>
                 Already have an account? Log in
               </Href>
             </Link>
             <HStack>
               <Button flexGrow={1} size="lg" variant="subtle">
-                <Href to="/">Cancel</Href>
+                <Href to={ROUTES.HOME}>Cancel</Href>
               </Button>
               <Button flexGrow={1} size="lg" variant="solid" color="white" bgColor="primary" type="submit" disabled={!isValid}>Sign Up</Button>
             </HStack>

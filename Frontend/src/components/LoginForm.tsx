@@ -3,6 +3,7 @@ import { Button, Card, Field, HStack, Input, Stack } from "@chakra-ui/react"
 import { PasswordInput } from "../components/ui/password-input"
 import { Link as Href } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
+import { ROUTES } from "../App";
 
 type LoginForm = {
   email: string,
@@ -51,13 +52,13 @@ function LoginForm() {
         <Card.Footer>
           <Stack w="full" gap={6}>
             <Link justifyContent="center" fontSize="sm" color="blue.500" as="div">
-              <Href to="/signup">
+              <Href to={ROUTES.SIGNUP}>
                 Don't have an account? Sign up
               </Href>
             </Link>
             <HStack>
               <Button flexGrow={1} size="lg" variant="subtle">
-                <Href to="/">Cancel</Href>
+                <Href to={ROUTES.HOME}>Cancel</Href>
               </Button>
               <Button flexGrow={1} size="lg" variant="solid" color="white" bgColor="primary" type="submit" disabled={!isValid}>Log In</Button>
             </HStack>
