@@ -4,13 +4,16 @@ import App from './App.tsx'
 import { ChakraProvider } from '@chakra-ui/react'
 import { ColorModeProvider } from './components/ui/color-mode.tsx'
 import { system } from './theme.ts'
+import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ChakraProvider value={system}>
-      <ColorModeProvider defaultTheme="system">
-        <App />
-      </ColorModeProvider>
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider value={system}>
+        <ColorModeProvider defaultTheme="system">
+          <App />
+        </ColorModeProvider>
+      </ChakraProvider>
+    </BrowserRouter>
   </StrictMode>,
-)
+);
