@@ -10,10 +10,12 @@ export const ROUTES = {
 
 function App() {
   return (
-    <Routes>
-      <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
-      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      </Routes>
+    </>
   )
 }
 

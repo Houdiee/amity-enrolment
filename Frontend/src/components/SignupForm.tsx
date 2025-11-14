@@ -7,7 +7,8 @@ import { Link as Href } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 import { ROUTES } from "../App";
 import { createUser } from "../api/userService";
-import { ApiError } from "../api/api";
+import { isApiError } from "../api/api";
+import { toaster } from "./ui/toaster";
 
 type SignupForm = {
   firstName: string,
@@ -42,9 +43,13 @@ function SignupForm() {
         password: data.password,
       });
     } catch (error) {
-      if (error instanceof ApiError) {
-
+      if (isApiError(error)) {
+        toaster.create({
+          title: error.message,
+          type: "error",
+        })
       }
+      console.log(error);
     }
     setIsSubmitting(false);
   });

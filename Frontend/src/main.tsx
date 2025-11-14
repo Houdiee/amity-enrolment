@@ -1,16 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider} from '@chakra-ui/react'
 import { ColorModeProvider } from './components/ui/color-mode.tsx'
 import { system } from './theme.ts'
 import { BrowserRouter } from 'react-router-dom'
+import { Toaster } from './components/ui/toaster.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ChakraProvider value={system}>
         <ColorModeProvider defaultTheme="system">
+          <Toaster/>
           <App />
         </ColorModeProvider>
       </ChakraProvider>
