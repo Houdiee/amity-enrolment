@@ -1,11 +1,13 @@
 import { Button, Card, Field, HStack, Input, Stack } from "@chakra-ui/react"
 import { PasswordInput, PasswordStrengthMeter } from "../components/ui/password-input"
 import { useForm } from "react-hook-form";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { zxcvbn, type Score } from "@zxcvbn-ts/core";
 import { Link as Href } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 import { ROUTES } from "../App";
+import { createUser } from "../api/userService";
+import { ApiError } from "../api/api";
 
 type SignupForm = {
   firstName: string,
@@ -29,8 +31,22 @@ function SignupForm() {
     return result.score;
   }, [passwordValue]);
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const onSubmit = handleSubmit(async data => {
+    setIsSubmitting(true);
+    try {
+      await createUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      });
+    } catch (error) {
+      if (error instanceof ApiError) {
+
+      }
+    }
+    setIsSubmitting(false);
   });
 
   return (
@@ -41,7 +57,7 @@ function SignupForm() {
       </Card.Header>
       <form onSubmit={onSubmit}>
         <Card.Body>
-          <Stack>
+          <Stack gap={4}>
             <Field.Root invalid={!!errors.firstName}>
               <Field.Label>First Name</Field.Label>
               <Input placeholder="John" {...register("firstName", { required: "This field is required" })} />
@@ -103,7 +119,18 @@ function SignupForm() {
               <Button flexGrow={1} size="lg" variant="subtle">
                 <Href to={ROUTES.HOME}>Cancel</Href>
               </Button>
-              <Button flexGrow={1} size="lg" variant="solid" color="white" bgColor="primary" type="submit" disabled={!isValid}>Sign Up</Button>
+              <Button
+                flexGrow={1}
+                size="lg"
+                variant="solid"
+                color="white"
+                bgColor="primary"
+                type="submit"
+                disabled={!isValid || isSubmitting}
+                loading={isSubmitting}
+              >
+                Sign Up
+              </Button>
             </HStack>
           </Stack>
         </Card.Footer>

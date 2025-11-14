@@ -24,7 +24,7 @@ function LoginForm() {
       </Card.Header>
       <form onSubmit={onSubmit}>
         <Card.Body>
-          <Stack>
+          <Stack gap={4}>
             <Field.Root invalid={!!errors.email}>
               <Field.Label>Email</Field.Label>
               <Input type="email" placeholder="example@email.com" {...register("email", {

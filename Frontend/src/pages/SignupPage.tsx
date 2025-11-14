@@ -4,7 +4,7 @@ import SignupForm from "../components/SignupForm";
 function SignupPage() {
   return (
     <>
-      <AbsoluteCenter w="sm">
+      <AbsoluteCenter w="md">
         {<SignupForm />}
       </AbsoluteCenter>
     </>
