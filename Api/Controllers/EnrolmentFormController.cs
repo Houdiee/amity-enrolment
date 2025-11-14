@@ -12,6 +12,25 @@ public class EnrolmentFormController(ApiDbContext dbcontext) : ControllerBase
 {
     private readonly ApiDbContext dbcontext = dbcontext;
 
+    [HttpGet]
+    public async Task<IActionResult> GetEnrolmentForm(int userId)
+    {
+        User? user = await dbcontext.Users
+          .Include(u => u.EnrolmentForm)
+          .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user is null)
+        {
+            return BadRequest(new { message = $"User with ID {userId} not found" });
+        }
+
+        return Ok(new
+        {
+          form = user.EnrolmentForm,
+          message = $"Successfully retrieved enrolment form for user with ID {userId}"
+        });
+    }
+
     [HttpPatch]
     public async Task<IActionResult> UpdateEnrolmentForm(int userId, [FromBody] JsonPatchDocument<EnrolmentForm> req)
     {

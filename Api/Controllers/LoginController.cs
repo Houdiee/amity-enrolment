@@ -50,7 +50,7 @@ public class LoginController(ApiDbContext dbcontext, TokenService tokenService) 
 
         return Ok(new
         {
-            user = user,
+            user = UserResponse.FromEntity(user),
             token = tokenService.GenerateToken(user),
         });
     }

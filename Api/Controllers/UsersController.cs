@@ -45,7 +45,7 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
 
         return Ok(new
         {
-            user = newUser,
+            user = UserResponse.FromEntity(newUser),
             message = "User created successfully"
         });
     }
@@ -64,7 +64,7 @@ public class UsersController(ApiDbContext dbcontext) : ControllerBase
 
         return Ok(new
         {
-            user = user,
+            user = UserResponse.FromEntity(user),
             message = $"Successfully found user with ID {user.Id}",
         });
     }
