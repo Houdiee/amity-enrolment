@@ -1,3 +1,8 @@
+export type LoginRequest =  {
+  email: string,
+  password: string,
+};
+
 export type UserResponse = {
   id: number,
   firstName: string,

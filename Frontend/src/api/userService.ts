@@ -1,7 +1,19 @@
-import type { CreateUserRequest, UserResponse } from "../types/user";
+import type { CreateUserRequest, LoginRequest, UserResponse } from "../types/user";
 import { apiClient, newApiError } from "./api";
 
 const endpoint = "/users";
+
+export const userLogin = async (payload: LoginRequest) => {
+  try {
+    const response = await apiClient.post("/login", payload);
+    const userResponse: UserResponse = response.data.user;
+    const token = response.data.token;
+    localStorage.setItem("authToken", token);
+    return userResponse;
+  } catch (error) {
+    throw newApiError(error);
+  }
+}
 
 export const getUserById = async (userId: number) => {
   try {

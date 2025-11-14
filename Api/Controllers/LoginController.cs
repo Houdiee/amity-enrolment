@@ -52,6 +52,7 @@ public class LoginController(ApiDbContext dbcontext, TokenService tokenService) 
         {
             user = UserResponse.FromEntity(user),
             token = tokenService.GenerateToken(user),
+            message = $"Successfully logged in user with email {user.Email}",
         });
     }
 }

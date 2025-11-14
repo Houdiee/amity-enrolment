@@ -44,10 +44,10 @@ function SignupForm() {
       });
     } catch (error) {
       if (isApiError(error)) {
-        toaster.create({
+        toaster.error({
           title: error.message,
-          type: "error",
-        })
+          closable: true
+        });
       }
       console.log(error);
     }
