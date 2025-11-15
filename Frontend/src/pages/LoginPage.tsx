@@ -1,11 +1,13 @@
-import { AbsoluteCenter } from "@chakra-ui/react";
+import { AbsoluteCenter, Box } from "@chakra-ui/react";
 import LoginForm from "../components/LoginForm";
 
 function LoginPage() {
   return (
     <>
       <AbsoluteCenter w="md">
-        {<LoginForm />}
+        <Box w="full" maxW={{ base: "90vw", md: "md" }}>
+          <LoginForm />
+        </Box>
       </AbsoluteCenter>
     </>
   )

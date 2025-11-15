@@ -38,7 +38,7 @@ function LoginForm() {
   });
 
   return (
-    <Card.Root shadow="md" w="full">
+    <Card.Root shadow="md">
       <Card.Header>
         <Card.Title fontSize="2xl">Log In</Card.Title>
       </Card.Header>
@@ -73,7 +73,7 @@ function LoginForm() {
                 Don't have an account? Sign up
               </Href>
             </Link>
-            <HStack>
+            <Stack direction={{ base: "column", md: "row" }}>
               <Button flexGrow={1} size="lg" variant="subtle">
                 <Href to={ROUTES.HOME}>Cancel</Href>
               </Button>
@@ -89,7 +89,7 @@ function LoginForm() {
               >
                 Log In
               </Button>
-            </HStack>
+            </Stack>
           </Stack>
         </Card.Footer>
       </form>

@@ -55,7 +55,7 @@ function SignupForm() {
   });
 
   return (
-    <Card.Root shadow="md" w="full">
+    <Card.Root shadow="md">
       <Card.Header>
         <Card.Title fontSize="2xl">Sign Up</Card.Title>
         <Card.Description>Fill in the fields below to get started</Card.Description>
@@ -120,7 +120,7 @@ function SignupForm() {
                 Already have an account? Log in
               </Href>
             </Link>
-            <HStack>
+            <Stack direction={{ base: "column", md: "row" }}>
               <Button flexGrow={1} size="lg" variant="subtle">
                 <Href to={ROUTES.HOME}>Cancel</Href>
               </Button>
@@ -136,7 +136,7 @@ function SignupForm() {
               >
                 Sign Up
               </Button>
-            </HStack>
+            </Stack>
           </Stack>
         </Card.Footer>
       </form>
