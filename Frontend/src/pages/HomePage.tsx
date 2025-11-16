@@ -1,18 +1,13 @@
-import { Flex, Image, Drawer, Button, Icon, useDisclosure, Portal, CloseButton, useBreakpointValue, Link, Stack } from "@chakra-ui/react";
-import LogoDesktop from "../assets/amity_college_logo.png";
-import LogoCompact from "../assets/amity_college_logo_compact.png";
+import { Flex, Image, Drawer, Button, Icon, useDisclosure, Portal, CloseButton, Link, Stack, HStack } from "@chakra-ui/react";
+import LogoImage from "../assets/amity_college_logo_compact.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 function Logo() {
-  const imageSource = useBreakpointValue({
-    base: LogoCompact,
-    md: LogoDesktop,
-  });
   return (
     <Image
-      src={imageSource}
+      src={LogoImage}
       alt="Amity College Logo"
-      h={{ base: "50px", md: "100px" }}
+      h={{ base: "60px" }}
     />
   );
 }
@@ -38,9 +33,27 @@ function NavbarDrawer() {
                 <Logo />
               </Drawer.Title>
             </Drawer.Header>
-            <Drawer.Body>
-              <Stack>
-                <Link>Enrol</Link>
+            <Drawer.Body display="flex" justifyContent="center" mt="2">
+              <Stack gap="6">
+                <Link display="block" fontSize="xl" textAlign="center">
+                  Sign Up
+                </Link>
+                <Link fontSize="xl" display="block" textAlign="center">
+                  Log In
+                </Link>
+                <Link
+                  fontSize="xl"
+                  bgColor="blue.600"
+                  display="block"
+                  textAlign="center"
+                  p="2"
+                  pl="5"
+                  pr="5"
+                  borderRadius="3xl"
+                  boxShadow="xl"
+                >
+                  Enrol Now
+                </Link>
               </Stack>
             </Drawer.Body>
             <Drawer.CloseTrigger asChild>
@@ -51,7 +64,6 @@ function NavbarDrawer() {
       </Portal>
     </Drawer.Root>
   );
-
 }
 
 function HomePage() {
@@ -61,12 +73,27 @@ function HomePage() {
         as="nav"
         align="center"
         justify="space-between"
-        wrap="wrap"
         mx="auto"
         p="4"
       >
         <Logo />
-        <NavbarDrawer />
+        <HStack fontSize="lg" gap="8">
+          <Link>
+            Sign Up
+          </Link>
+          <Link>
+            Log In
+          </Link>
+          <Link
+            bgColor="blue.600"
+            p="2"
+            pl="4"
+            pr="4"
+            borderRadius="3xl"
+          >
+            Enrol Now
+          </Link>
+        </HStack>
       </Flex>
     </>
   );
